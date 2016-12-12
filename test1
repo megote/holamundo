@@ -1,0 +1,111 @@
+FROM axamedla-digitalkitchen/liferay-portal-tomcat:6.2-ee-sp14
+
+MAINTAINER Ramon Cisternas <Ramon.Cisternas@axa-tech.com> 
+ 
+ENV NEXUS_REPOSITORY=admin:6nqbFMCvsTDajYVAGBTLDCiw5ZTO5Z@nexus.axamedla-digitalkitchen.osappint.pink.eu-central-1.aws.openpaas.axa-cloud.com/content/repositories
+
+WORKDIR /opt/liferay
+
+COPY license-portaldevelopment-developer-6.2ee-axa.xml ./deploy/
+COPY mysql.jar ./tomcat/lib/ext/
+COPY portal-ext.properties ./
+COPY server.xml ./tomcat/conf/
+COPY setenv.sh ./tomcat/bin/
+COPY web.xml ./tomcat/conf/
+
+WORKDIR /opt/liferay/deploy
+
+RUN curl -LS http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/Audience-Targeting-EE-1.x-17d0ed58276a5b36c98c34947658e96c60abba73.tar.gz | tar xzC .
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/Audit_EE-2.0.0-6210.lpkg
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_1column_breadcrumb_title_full_grey-layouttpl-0.1.3-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_full_banner_template_notitle-layouttpl-0.0.1-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_Marketplace_1_1_column-layouttpl-1.1.0-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_Marketplace_1_1_contactform_column-layouttpl-1.1.0-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_Marketplace_1_1_login_column-layouttpl-1.1.0-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_Marketplace_1_2_columns-layouttpl-1.1.0-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_Marketplace_1_2_home_columns-layouttpl-1.1.0-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_Marketplace_Contributor-portlet-0.2.0-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_Marketplace_home-layouttpl-0.1.0-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_Marketplace_login-hook-0.4.1-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_Marketplace_Searcher-portlet-0.2.0-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_Marketplace_Service-theme-0.0.1-20160119.111951-10.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_Marketplace_shoppingCartInfo-portlet-0.1.1-20160505.151145-19.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_Marketplace_shopping-hook-0.4.0-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_Marketplace_shopping-portlet-0.10.0-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_Marketplace-theme-1.0.4-20160704.153115-1.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_mkp_template-theme-0.4.0-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_TR_WR_agent-theme-1.0.1-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/AXA_TR_WZ_agent-portlet-2.0.2-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/CustomAsyncContent-portlet-1.3.0-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/CustomerInsight-portlet-1.3.0-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/Drools_EE-2.0.1-6210.lpkg
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/Facebook_Integration-1.0-6210.lpkg
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/LeadManagementFilter-hook-1.1.2-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/LeadsGenerator-portlet-portlet-1.2.0-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/LeadsManagementAdministration-portlet-1.1.0-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/Liferay_Log_Viewer-1.0.3-6210.lpkg
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/Liferay_Notifications.lpkg
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/Liferay_Resources_Importer.lpkg
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/LMMockup.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/NavigationTracking-portlet-1.4.0-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PrivateAXA_ClaimDeclaration_CustomerPrivateSite-portlet-0.0.7-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PrivateAXA_ClaimDetails_CustomerPrivateSite-portlet-0.0.7-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PrivateAXA_ClaimsList_CustomerPrivateSite-portlet-0.0.9-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PrivateAXA_MyAgent_MyAXAWeb-portlet-0.0.4-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PrivateAXA_MyDocuments_MyAXAWeb-portlet-0.0.3-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PrivateAXA_MyProfile-portlet-0.0.12-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PrivateAXA_PoliciesDetail-portlet-0.0.13-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PrivateAXA_PoliciesList_CustomerPrivateSite-portlet-0.0.19-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PrivateAXA_TR_WZ_publish-portlet-0.0.2-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_DZ-theme-0.2.9.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_ES_hiringbar-portlet-1.3.3.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_HO_Lucy-theme-1.0.0-20160310.122440-1.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_HO_ProtectionTools-portlet-2.10.1-20160118.133206-158.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_HO_SME_360-portlet-3.4.0-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_LoginRegister_CustomerPrivateSite-portlet-0.0.22-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_NG_AgentSearch-portlet-0.4.1-20160125.091459-479.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_NG_CareersForm-portlet-0.6.1-20160407.100252-533.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_NG_contact-genericform-portlet-0.9.1-20150630.100848-8.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_NG_contact-layouttpl-0.2.1-20160407.165822-534.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_NG_contact-productsform-portlet-0.14.1-20160407.165921-527.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_NG_genericComplete-layouttpl-0.2.1-20160202.103826-485.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_NG_generic-layouttpl-0.2.1-20160202.104504-485.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_NG_home-layouttpl-0.2.1-20160407.165824-534.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_NG_homePensions-layouttpl-0.1.1-20160407.165831-534.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_NG_Pensions-theme-0.15.1-20150826.102506-35.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_NG_productEnterprise-layouttpl-0.2.1-20160407.165827-534.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_NG_productEnterpriseTabPromo-layouttpl-0.2.1-20160407.165828-534.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_NG_product-layouttpl-0.2.1-20160407.165825-534.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_NG-theme-1.4.3-20160414.091428-64.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TRV_footer-portlet-0.1.1-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TRV_WebClients-theme-0.2.1-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TR_WR_back-theme-1.0.1-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TR_WR-layouttpl-1.0.0-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TR_WR-theme-1.0.1-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TR_WZ_back-portlet-0.2.0-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TR_WZ_contact-form-portlet-0.3.0-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TR_WZ_language-hook-2.0.0-alpha.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TR_WZ_mainback-portlet-0.0.1-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TR_WZ_mapa-portlet-0.6.0.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TR_WZ_noticias-portlet-0.0.1-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TR_WZ_ourTeam-portlet-0.4.0.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TR_WZ_partners-portlet-0.0.1-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TR_WZ_products-portlet-0.0.1-rc.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TR_WZ_schedule-portlet-0.1.0.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/PublicAXA_TR_WZ_socialMedia-portlet-0.4.0.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/short-url-portlet-1.2.0.war
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/SQL_Query_Scripting-1.3-6210.lpkg
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/Web_Form_EE-2.0.5-6210.lpkg
+
+WORKDIR /opt/liferay/tomcat/webapps
+
+RUN curl -LO http://${NEXUS_REPOSITORY}/digitalkitchen/desarrollo/dv-portlets/latest/ws.war
+
+RUN chown -R liferay:liferay . && \
+    chmod -R 777 /opt/liferay
+
+EXPOSE 8080
+
+USER liferay
+
+ENTRYPOINT ["/opt/liferay/tomcat/bin/catalina.sh", "run"]
