@@ -1,3 +1,6 @@
+Cambios en este documento
+
+
 FROM axamedla-digitalkitchen/liferay-portal-tomcat:6.2-ee-sp14
 
 MAINTAINER Ramon Cisternas <Ramon.Cisternas@axa-tech.com> 
